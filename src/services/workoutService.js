@@ -9,13 +9,12 @@ const getAllWorkouts =() => {
     return allWorkouts;
 };
 
-
-
-const getOneWorkout = (newWorkout) => {
+const getOneWorkout = (workoutId) => {
     // Logic to get one workout by ID from the database
 
-    return;
-
+    const workout = Workout.getOneWorkout(workoutId);
+ 
+    return workout;
 };
 
 const createNewWorkout = (newWorkout) => {
@@ -45,18 +44,17 @@ const createNewWorkout = (newWorkout) => {
 
 };
 
-
-const updateOneWorkout = () => {
+const updateOneWorkout = ( workoutId, changes) => {
     // Logic to update an existing workout in the database
-
-    return;
-
+    const updatedWorkout = Workout.updateOneWorkout(workoutId, changes);
+    return updatedWorkout;
 };
 
-const deleteOneWorkout = () => {
+const deleteOneWorkout = (workoutId) => {
     // Logic to delete a workout from the database
-    return;
+    const deletedWorkout = Workout.deleteOneWorkout(workoutId);
 
+    return;
 };
 
 module.exports = {

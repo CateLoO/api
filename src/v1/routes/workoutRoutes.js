@@ -10,7 +10,7 @@ router
 
     .post("/", workoutController.createWorkout)
 
-    .patch("/:workoutId", workoutController.updateWorkout)
+    .patch("/:workoutId", workoutController.updateOneWorkout)
 
     .delete("/:workoutId", workoutController.deleteWorkout)
 

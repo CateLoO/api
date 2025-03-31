@@ -1,3 +1,4 @@
+const { response } = require('express');
 const workoutServices = require('../services/workoutService.js');
 
 
@@ -12,13 +13,16 @@ const getAllWorkouts = async (req, res) => {
     }
 };
 
-const getOneWorkout = async (req, res) => {
-    try {
-        const workout = await workoutServices.getOneWorkout(req.params.workoutId);
-        res.status(200).send({ status: "OK", data: 'workout '+ workout });
-    } catch (error) {
-        res.status(500).send({ status: "ERROR", message: error.message });
+const getOneWorkout = (req, res) => {
+    const {
+        params: { workoutId },
+    } = req;
+    
+    if (!workoutId) {
+        return;
     }
+    const workout = workoutServices.getOneWorkout(workoutId);
+    res.send({ status: "OK", data: workout });
 };
 
 const createWorkout = async (req, res) => {
@@ -43,28 +47,33 @@ const createWorkout = async (req, res) => {
     }
 };
 
-const updateWorkout = async (req, res) => {
-    try {
-        const updatedWorkout = await workoutServices.updateWorkout(req.params.workoutId, req.body);
-        res.status(200).send({ status: "OK", data: updatedWorkout });
-    } catch (error) {
-        res.status(500).send({ status: "ERROR", message: error.message });
-    }
+const updateOneWorkout =  (req, res) => {
+  const {
+    params: { workoutId },
+    body,
+  } = req;
+  if (!workoutId) {
+    return res.status(400).send({ status: "ERROR", message: "Workout ID is required" });
+  }
+  const workout = workoutServices.updateOneWorkout(workoutId, body);
+  res.status(200).send({ status: "OK", data: workout });
 };
 
-const deleteWorkout = async (req, res) => {
-    try {
-        const deletedWorkout = await workoutServices.deleteWorkout(req.params.workoutId);
-        res.status(200).send({ status: "OK", data: deletedWorkout });
-    } catch (error) {
-        res.status(500).send({ status: "ERROR", message: error.message });
-    }
+const deleteWorkout = (req, res) => {
+    const {
+        params: { workoutId },
+      } = req;
+      if (!workoutId) {
+        return res.status(400).send({ status: "ERROR", message: "Workout ID is required" });
+      }
+        const workout = workoutServices.deleteOneWorkout(workoutId);
+        res.status(204).send({ status: "OK", data: workout });
 };
 
 module.exports = {
     getAllWorkouts,
     getOneWorkout,
     createWorkout,
-    updateWorkout,
+    updateOneWorkout,
     deleteWorkout
 };
